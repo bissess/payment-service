@@ -5,3 +5,8 @@ asyncpg
 sqlalchemy
 pydantic
 python-dotenv
+pytest
+pytest-asyncio
+pytest-mock
+pytest-dotenv
+pydantic-settings

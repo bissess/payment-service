@@ -1,13 +1,13 @@
 from typing import AsyncGenerator
 
+from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
-from src.utils.config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
+from src.utils.config import settings
 
-
-DATABASE_URL = f'postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-engine = create_async_engine(DATABASE_URL)
+DB_URL = settings.DB_URL
+engine = create_async_engine(DB_URL, echo=True, poolclass=NullPool)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 

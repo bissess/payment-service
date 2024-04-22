@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class RechargeDepositSchema(BaseModel):
+class PaymentSchema(BaseModel):
     id: int
     username: str
     balance: float

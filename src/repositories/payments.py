@@ -1,12 +1,12 @@
 from sqlalchemy import select, update
 
 from databases.payments import async_session_maker
-from models.users import User
+from models.users import Users
 from utils.repositories import SQLAlchemyRepository
 
 
 class PaymentRepository(SQLAlchemyRepository):
-    model = User
+    model = Users
 
     async def insert_one(self, user_id: int):
         async with async_session_maker() as session:
@@ -27,10 +27,10 @@ class PaymentRepository(SQLAlchemyRepository):
             except Exception as e:
                 return {'An error occurred': e}
 
-    async def update_one(self, user_id: int, new_balance: float):
+    async def update_one(self, identifier: int, new_balance: float):
         async with async_session_maker() as session:
             try:
-                stmt = update(self.model).where(self.model.id == user_id).values(balance=new_balance)
+                stmt = update(self.model).where(self.model.id == identifier).values(balance=new_balance)
                 result = await session.execute(stmt)
                 await session.commit()
                 return result.scalar_one_or_none()
