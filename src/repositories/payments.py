@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import select, update, insert
 
 from databases.payments import async_session_maker
 from models.users import Users
@@ -8,11 +8,11 @@ from utils.repositories import SQLAlchemyRepository
 class PaymentRepository(SQLAlchemyRepository):
     model = Users
 
-    async def insert_one(self, user_id: int):
+    async def insert_one(self, data: dict):
         async with async_session_maker() as session:
             try:
-                user = select(self.model.balance).where(self.model.id == user_id)
-                result = await session.execute(user)
+                balance = insert(self.model).values(**data)
+                result = await session.execute(balance)
                 await session.commit()
                 return result.scalar_one_or_none()
             except Exception as e:
