@@ -31,7 +31,7 @@ async def transfer_balance(
     return {'message': 'Transfer has been successfully.'}
 
 
-@router.get('')
+@router.get('/')
 async def getting_balance(identifier: int, service: PaymentService = Depends(get_payment_service)):
     getting_result = await service.getting_balance(identifier)
     return getting_result
